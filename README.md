@@ -98,11 +98,21 @@ Com a API rodando, a documentação Swagger fica em `http://localhost:5053/swagg
 - **Categoria** tem vários **Itens**.
 - **Item** recebe várias **Solicitações**.
 
+## Testes realizados
+
+Os endpoints foram testados manualmente pelo Swagger, incluindo os cenários de erro:
+
+- Categorias: listagem, busca por id e `404` para id inexistente.
+- Usuários: cadastro (`201`), e-mail duplicado (`409`), dados inválidos (`400`), atualização, listagem e `404`.
+- Itens: cadastro (`201`), usuário inexistente (`400`), atualização, filtros por categoria, busca por texto e status, e `404`.
+- Solicitações: cadastro (`201`), solicitação duplicada (`409`), dono solicitando o próprio item (`400`), aceite com recusa automática das demais pendentes, item passando para `Doado`, solicitar item já doado (`409`) e aceitar novamente (`409`).
+
 ## Melhorias futuras
 
+- Testes automatizados com xUnit (testes de unidade das regras de negócio e testes de integração dos endpoints).
 - Cadastro de usuário com Estado (lista de seleção), CEP e CPF (com validação e proteção dos dados, conforme a LGPD).
 - Preenchimento automático de cidade e estado a partir do CEP.
-- Cadastro e login com JWT.
+- Autenticação e autorização (login com JWT), para que apenas o dono do item possa aceitar ou recusar solicitações.
 - Imagens dos itens.
 - Favoritos e avaliações.
 - Busca por localização e mapa de itens disponíveis.
