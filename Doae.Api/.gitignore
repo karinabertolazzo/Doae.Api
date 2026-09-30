@@ -1,0 +1,25 @@
+# Build
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Banco de dados local (cada pessoa gera o seu)
+*.db
+*.db-shm
+*.db-wal
+
+# Segredos e variáveis locais
+.env
+appsettings.*.local.json
+secrets.json
+
+# Sistema
+.DS_Store
+Thumbs.db
