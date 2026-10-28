@@ -1,0 +1,44 @@
+.item-card {
+  background: #fff;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.item-card-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.item-card-descricao {
+  margin: 0 0 12px;
+}
+
+.item-card-detalhes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  display: grid;
+  gap: 4px;
+}
+
+.selo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.selo-disponivel {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.selo-doado {
+  background: #eceff1;
+  color: #546e7a;
+}
