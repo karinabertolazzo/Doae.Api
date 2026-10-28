@@ -1,0 +1,42 @@
+.menu {
+  background: var(--cor-primaria);
+  color: #fff;
+}
+
+.menu-conteudo {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.menu-logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.menu-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.menu-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.menu-link:hover {
+  background: var(--cor-primaria-escura);
+}
+
+.menu-link.ativo {
+  background: var(--cor-primaria-escura);
+  font-weight: 600;
+}
