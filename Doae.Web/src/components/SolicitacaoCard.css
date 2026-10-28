@@ -1,0 +1,48 @@
+.solicitacao-card {
+  background: #fff;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.solicitacao-card p {
+  margin: 0 0 6px;
+}
+
+.solicitacao-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.selo-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  height: fit-content;
+}
+
+.status-pendente { background: #fff8e1; color: #8d6e00; }
+.status-aceita { background: #e8f5e9; color: #1b5e20; }
+.status-recusada { background: #ffebee; color: #b71c1c; }
+.status-cancelada { background: #eceff1; color: #546e7a; }
+
+.solicitacao-acoes {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.solicitacao-acoes button {
+  padding: 6px 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.solicitacao-acoes .btn-aceitar {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: #fff;
+}
