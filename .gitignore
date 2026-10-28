@@ -23,3 +23,9 @@ secrets.json
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Front-end (React/Vite)
+node_modules/
+dist/
+.env.local
+.env.*.local
