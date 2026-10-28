@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { solicitacoesApi } from '../services/api';
 import SolicitacaoCard from '../components/SolicitacaoCard';
+import SolicitarForm from '../components/SolicitarForm';
 import Aviso from '../components/Aviso';
 import './SolicitacoesPage.css';
 
@@ -8,6 +9,7 @@ function SolicitacoesPage() {
   const [solicitacoes, setSolicitacoes] = useState([]);
   const [status, setStatus] = useState('');
   const [aviso, setAviso] = useState({ tipo: '', mensagem: '' });
+  const [versao, setVersao] = useState(0);
 
   const carregar = () =>
     solicitacoesApi
@@ -19,11 +21,18 @@ function SolicitacoesPage() {
     carregar();
   }, [status]);
 
+  const aoSolicitar = (mensagem) => {
+    setAviso({ tipo: 'sucesso', mensagem });
+    carregar();
+    setVersao((v) => v + 1);
+  };
+
   const executar = (acao, textoSucesso) => async (id) => {
     try {
       await acao(id);
       setAviso({ tipo: 'sucesso', mensagem: textoSucesso });
       await carregar();
+      setVersao((v) => v + 1);
     } catch (e) {
       setAviso({ tipo: 'erro', mensagem: e.message });
     }
@@ -37,6 +46,12 @@ function SolicitacoesPage() {
         tipo={aviso.tipo}
         mensagem={aviso.mensagem}
         aoFechar={() => setAviso({ tipo: '', mensagem: '' })}
+      />
+
+      <SolicitarForm
+        key={versao}
+        aoSucesso={aoSolicitar}
+        aoErro={(mensagem) => setAviso({ tipo: 'erro', mensagem })}
       />
 
       <div className="solicitacoes-filtro">
