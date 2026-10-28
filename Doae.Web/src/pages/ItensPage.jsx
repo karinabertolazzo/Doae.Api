@@ -12,6 +12,8 @@ function ItensPage() {
   const [filtros, setFiltros] = useState(filtrosIniciais);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
+  const [sucesso, setSucesso] = useState('');
+  const [versao, setVersao] = useState(0);
 
   useEffect(() => {
     categoriasApi
@@ -26,20 +28,46 @@ function ItensPage() {
       .listar(filtros)
       .then((dados) => {
         setItens(dados);
-        setErro('');
       })
       .catch((e) => setErro(e.message))
       .finally(() => setCarregando(false));
-  }, [filtros]);
+  }, [filtros, versao]);
 
   const alterarFiltro = (campo) => (evento) =>
     setFiltros({ ...filtros, [campo]: evento.target.value });
+
+  const editar = async (id, dados) => {
+    try {
+      await itensApi.atualizar(id, dados);
+      setSucesso('Item atualizado com sucesso!');
+      setErro('');
+      setVersao((v) => v + 1);
+      return true;
+    } catch (e) {
+      setErro(e.message);
+      setSucesso('');
+      return false;
+    }
+  };
+
+  const excluir = async (id) => {
+    try {
+      await itensApi.remover(id);
+      setSucesso('Item excluído com sucesso!');
+      setErro('');
+      setVersao((v) => v + 1);
+    } catch (e) {
+      setErro(e.message);
+      setSucesso('');
+    }
+  };
 
   return (
     <section>
       <h2>Itens para doação</h2>
 
       <Aviso tipo="erro" mensagem={erro} aoFechar={() => setErro('')} />
+      <Aviso tipo="sucesso" mensagem={sucesso} aoFechar={() => setSucesso('')} />
 
       <div className="filtros">
         <input
@@ -78,7 +106,13 @@ function ItensPage() {
 
       <div className="itens-grade">
         {itens.map((item) => (
-          <ItemCard key={item.id} item={item} />
+          <ItemCard
+            key={item.id}
+            item={item}
+            categorias={categorias}
+            aoEditar={editar}
+            aoExcluir={excluir}
+          />
         ))}
       </div>
     </section>
