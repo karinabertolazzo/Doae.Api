@@ -1,0 +1,27 @@
+.detalhe-voltar {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--cor-primaria);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.detalhe-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.detalhe-info {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: grid;
+  gap: 4px;
+}
+
+.detalhe-solicitacoes {
+  display: grid;
+  gap: 12px;
+}

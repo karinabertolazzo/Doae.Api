@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './ItemCard.css';
 
 function ItemCard({ item, categorias = [], aoEditar, aoExcluir }) {
@@ -73,6 +74,7 @@ function ItemCard({ item, categorias = [], aoEditar, aoExcluir }) {
         <li><strong>Doador:</strong> {item.usuarioNome}</li>
       </ul>
       <div className="item-card-acoes">
+        <Link to={`/itens/${item.id}`} className="link-detalhes">Ver detalhes</Link>
         {!doado && <button onClick={iniciarEdicao}>Editar</button>}
         <button className="btn-excluir" onClick={confirmarExclusao}>Excluir</button>
       </div>
