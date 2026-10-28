@@ -1,0 +1,30 @@
+.aviso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid;
+}
+
+.aviso-sucesso {
+  background: #e8f5e9;
+  border-color: var(--cor-sucesso);
+  color: #1b5e20;
+}
+
+.aviso-erro {
+  background: #ffebee;
+  border-color: var(--cor-erro);
+  color: #b71c1c;
+}
+
+.aviso-fechar {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: inherit;
+}
