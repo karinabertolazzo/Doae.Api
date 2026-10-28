@@ -25,3 +25,24 @@
   display: grid;
   gap: 12px;
 }
+
+.detalhe-destinatario {
+  background: #e8f5e9;
+  border: 1px solid var(--cor-sucesso);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 24px;
+  color: #1b5e20;
+}
+
+.detalhe-destinatario h3 {
+  margin-bottom: 8px;
+}
+
+.detalhe-destinatario ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}

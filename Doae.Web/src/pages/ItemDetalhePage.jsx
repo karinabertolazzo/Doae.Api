@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { itensApi, solicitacoesApi } from '../services/api';
+import { itensApi, solicitacoesApi, usuariosApi } from '../services/api';
 import SolicitacaoCard from '../components/SolicitacaoCard';
 import Aviso from '../components/Aviso';
 import './ItemDetalhePage.css';
@@ -9,6 +9,7 @@ function ItemDetalhePage() {
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [solicitacoes, setSolicitacoes] = useState([]);
+  const [destinatario, setDestinatario] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [aviso, setAviso] = useState({ tipo: '', mensagem: '' });
 
@@ -20,6 +21,14 @@ function ItemDetalhePage() {
       ]);
       setItem(dadosItem);
       setSolicitacoes(dadosSolicitacoes);
+
+      const aceita = dadosSolicitacoes.find((s) => s.status === 'Aceita');
+      if (dadosItem.status === 'Doado' && aceita) {
+        const usuarios = await usuariosApi.listar();
+        setDestinatario(usuarios.find((u) => u.id === aceita.solicitanteId) ?? null);
+      } else {
+        setDestinatario(null);
+      }
     } catch (e) {
       setAviso({ tipo: 'erro', mensagem: e.message });
     } finally {
@@ -70,6 +79,20 @@ function ItemDetalhePage() {
             <li><strong>Doador:</strong> {item.usuarioNome}</li>
             <li><strong>Cadastrado em:</strong> {new Date(item.criadoEm).toLocaleDateString('pt-BR')}</li>
           </ul>
+
+          {destinatario && (
+            <div className="detalhe-destinatario">
+              <h3>Doado para</h3>
+              <ul>
+                <li><strong>Nome:</strong> {destinatario.nome}</li>
+                <li><strong>E-mail:</strong> {destinatario.email}</li>
+                {destinatario.telefone && (
+                  <li><strong>Telefone:</strong> {destinatario.telefone}</li>
+                )}
+                <li><strong>Cidade:</strong> {destinatario.cidade}</li>
+              </ul>
+            </div>
+          )}
 
           <h3>Solicitações para este item</h3>
           {solicitacoes.length === 0 && <p>Ninguém solicitou este item ainda.</p>}
