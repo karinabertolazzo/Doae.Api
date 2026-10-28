@@ -1,0 +1,15 @@
+.solicitacoes-filtro {
+  margin-bottom: 16px;
+}
+
+.solicitacoes-filtro select {
+  padding: 8px 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.solicitacoes-lista {
+  display: grid;
+  gap: 12px;
+}
