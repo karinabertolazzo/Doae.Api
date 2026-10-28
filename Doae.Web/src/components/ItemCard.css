@@ -42,3 +42,41 @@
   background: #eceff1;
   color: #546e7a;
 }
+
+.item-card-form {
+  display: grid;
+  gap: 8px;
+}
+
+.item-card-form input,
+.item-card-form textarea,
+.item-card-form select {
+  padding: 6px 8px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.item-card-acoes {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.item-card-acoes button {
+  padding: 6px 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.item-card-acoes .btn-principal {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: #fff;
+}
+
+.item-card-acoes .btn-excluir {
+  color: var(--cor-erro);
+  border-color: var(--cor-erro);
+}
