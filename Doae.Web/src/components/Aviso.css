@@ -5,20 +5,20 @@
   gap: 12px;
   padding: 12px 16px;
   margin-bottom: 16px;
-  border-radius: 6px;
+  border-radius: 10px;
   border: 1px solid;
 }
 
 .aviso-sucesso {
-  background: #e8f5e9;
+  background: rgba(74, 222, 128, 0.12);
   border-color: var(--cor-sucesso);
-  color: #1b5e20;
+  color: var(--cor-sucesso);
 }
 
 .aviso-erro {
-  background: #ffebee;
+  background: rgba(248, 113, 113, 0.12);
   border-color: var(--cor-erro);
-  color: #b71c1c;
+  color: var(--cor-erro);
 }
 
 .aviso-fechar {
