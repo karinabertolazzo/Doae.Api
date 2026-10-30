@@ -1,8 +1,15 @@
 .item-card {
-  background: #fff;
+  background: var(--cor-card);
   border: 1px solid var(--cor-borda);
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 14px;
+  padding: 18px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.item-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--cor-primaria);
 }
 
 .item-card-topo {
@@ -14,6 +21,7 @@
 
 .item-card-descricao {
   margin: 0 0 12px;
+  color: var(--cor-texto-suave);
 }
 
 .item-card-detalhes {
@@ -28,19 +36,21 @@
 .selo {
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 3px 8px;
+  padding: 3px 10px;
   border-radius: 999px;
   white-space: nowrap;
 }
 
 .selo-disponivel {
-  background: #e8f5e9;
-  color: #1b5e20;
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--cor-sucesso);
+  border: 1px solid var(--cor-sucesso);
 }
 
 .selo-doado {
-  background: #eceff1;
-  color: #546e7a;
+  background: rgba(155, 181, 165, 0.15);
+  color: var(--cor-texto-suave);
+  border: 1px solid var(--cor-borda);
 }
 
 .item-card-form {
@@ -52,28 +62,33 @@
 .item-card-form textarea,
 .item-card-form select {
   padding: 6px 8px;
-  border: 1px solid var(--cor-borda);
   border-radius: 6px;
   font: inherit;
 }
 
 .item-card-acoes {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .item-card-acoes button {
   padding: 6px 12px;
   border: 1px solid var(--cor-borda);
-  border-radius: 6px;
-  background: #fff;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.item-card-acoes button:hover {
+  border-color: var(--cor-primaria);
 }
 
 .item-card-acoes .btn-principal {
   background: var(--cor-primaria);
   border-color: var(--cor-primaria);
-  color: #fff;
+  color: #06110b;
+  font-weight: 600;
 }
 
 .item-card-acoes .btn-excluir {
@@ -84,8 +99,12 @@
 .link-detalhes {
   padding: 6px 12px;
   border: 1px solid var(--cor-primaria);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--cor-primaria);
   text-decoration: none;
   font-size: 0.9rem;
+}
+
+.link-detalhes:hover {
+  background: rgba(74, 222, 128, 0.12);
 }

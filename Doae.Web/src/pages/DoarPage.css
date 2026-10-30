@@ -2,33 +2,55 @@
   display: grid;
   gap: 14px;
   max-width: 520px;
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 14px;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+  margin-bottom: 24px;
+}
+
+.formulario h3 {
+  color: var(--cor-destaque);
+  margin: 0;
 }
 
 .formulario label {
   display: grid;
   gap: 4px;
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .formulario input,
 .formulario select,
 .formulario textarea {
-  padding: 8px 10px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
   font: inherit;
   font-weight: 400;
 }
 
 .formulario button {
-  padding: 10px;
+  padding: 11px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--cor-primaria);
-  color: #fff;
-  font-weight: 600;
+  color: #06110b;
+  font-weight: 700;
+}
+
+.formulario button:hover {
+  background: var(--cor-primaria-escura);
 }
 
 .formulario button:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.formulario .btn-secundario {
+  background: transparent;
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
 }

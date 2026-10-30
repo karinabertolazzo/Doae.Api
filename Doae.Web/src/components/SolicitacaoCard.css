@@ -1,12 +1,18 @@
 .solicitacao-card {
-  background: #fff;
+  background: var(--cor-card);
   border: 1px solid var(--cor-borda);
-  border-radius: 8px;
-  padding: 14px 16px;
+  border-radius: 14px;
+  padding: 16px 18px;
+  backdrop-filter: blur(6px);
 }
 
 .solicitacao-card p {
   margin: 0 0 6px;
+  color: var(--cor-texto-suave);
+}
+
+.solicitacao-card strong {
+  color: var(--cor-texto);
 }
 
 .solicitacao-topo {
@@ -18,15 +24,35 @@
 .selo-status {
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 3px 8px;
+  padding: 3px 10px;
   border-radius: 999px;
   height: fit-content;
+  border: 1px solid;
 }
 
-.status-pendente { background: #fff8e1; color: #8d6e00; }
-.status-aceita { background: #e8f5e9; color: #1b5e20; }
-.status-recusada { background: #ffebee; color: #b71c1c; }
-.status-cancelada { background: #eceff1; color: #546e7a; }
+.status-pendente {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  border-color: #fbbf24;
+}
+
+.status-aceita {
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--cor-sucesso);
+  border-color: var(--cor-sucesso);
+}
+
+.status-recusada {
+  background: rgba(248, 113, 113, 0.12);
+  color: var(--cor-erro);
+  border-color: var(--cor-erro);
+}
+
+.status-cancelada {
+  background: rgba(155, 181, 165, 0.12);
+  color: var(--cor-texto-suave);
+  border-color: var(--cor-borda);
+}
 
 .solicitacao-acoes {
   display: flex;
@@ -37,12 +63,17 @@
 .solicitacao-acoes button {
   padding: 6px 12px;
   border: 1px solid var(--cor-borda);
-  border-radius: 6px;
-  background: #fff;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.solicitacao-acoes button:hover {
+  border-color: var(--cor-primaria);
 }
 
 .solicitacao-acoes .btn-aceitar {
   background: var(--cor-primaria);
   border-color: var(--cor-primaria);
-  color: #fff;
+  color: #06110b;
+  font-weight: 600;
 }

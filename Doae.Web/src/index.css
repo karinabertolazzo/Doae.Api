@@ -1,11 +1,15 @@
 :root {
-  --cor-primaria: #2e7d32;
-  --cor-primaria-escura: #1b5e20;
-  --cor-fundo: #f4f6f4;
-  --cor-texto: #1f2933;
-  --cor-borda: #d9e0d9;
-  --cor-erro: #c62828;
-  --cor-sucesso: #2e7d32;
+  --cor-primaria: #4ade80;
+  --cor-primaria-escura: #22c55e;
+  --cor-destaque: #4ade80;
+  --cor-fundo: #06110b;
+  --cor-card: rgba(15, 36, 25, 0.75);
+  --cor-card-solido: #0f2419;
+  --cor-borda: #1f3d2c;
+  --cor-texto: #e6f4ea;
+  --cor-texto-suave: #9bb5a5;
+  --cor-erro: #f87171;
+  --cor-sucesso: #4ade80;
 }
 
 * {
@@ -15,8 +19,13 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  background: var(--cor-fundo);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(74, 222, 128, 0.18), transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(34, 197, 94, 0.12), transparent 40%),
+    var(--cor-fundo);
+  background-attachment: fixed;
   color: var(--cor-texto);
+  min-height: 100vh;
 }
 
 h1,
@@ -25,7 +34,38 @@ h3 {
   margin: 0 0 12px;
 }
 
+h2 {
+  font-size: 2rem;
+  color: var(--cor-destaque);
+}
+
 button {
   cursor: pointer;
   font: inherit;
+  color: var(--cor-texto);
+}
+
+input,
+select,
+textarea {
+  background: rgba(6, 17, 11, 0.7);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--cor-texto-suave);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: 1px;
+}
+
+option {
+  background: var(--cor-card-solido);
+  color: var(--cor-texto);
 }

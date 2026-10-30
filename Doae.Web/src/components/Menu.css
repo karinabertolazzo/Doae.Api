@@ -1,6 +1,10 @@
 .menu {
-  background: var(--cor-primaria);
-  color: #fff;
+  background: rgba(6, 17, 11, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cor-borda);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .menu-conteudo {
@@ -15,8 +19,9 @@
 }
 
 .menu-logo {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--cor-destaque);
 }
 
 .menu-links {
@@ -26,17 +31,19 @@
 }
 
 .menu-link {
-  color: #fff;
+  color: var(--cor-texto);
   text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
 }
 
 .menu-link:hover {
-  background: var(--cor-primaria-escura);
+  background: var(--cor-card);
 }
 
 .menu-link.ativo {
-  background: var(--cor-primaria-escura);
+  border-color: var(--cor-primaria);
+  color: var(--cor-primaria);
   font-weight: 600;
 }

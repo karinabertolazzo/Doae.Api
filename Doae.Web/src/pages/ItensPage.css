@@ -3,25 +3,35 @@
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 8px;
   margin-bottom: 20px;
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 14px;
+  padding: 12px;
+  backdrop-filter: blur(6px);
 }
 
 .filtros input,
 .filtros select {
-  padding: 8px 10px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
   font: inherit;
 }
 
 .filtros button {
-  padding: 8px 10px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 6px;
-  background: #fff;
+  padding: 10px 12px;
+  border: 1px solid var(--cor-primaria);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+.filtros button:hover {
+  background: rgba(74, 222, 128, 0.12);
 }
 
 .itens-grade {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
 }
