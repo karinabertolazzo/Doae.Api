@@ -6,6 +6,7 @@ import ItemDetalhePage from './pages/ItemDetalhePage';
 import DoarPage from './pages/DoarPage';
 import UsuariosPage from './pages/UsuariosPage';
 import SolicitacoesPage from './pages/SolicitacoesPage';
+import EntrarPage from './pages/EntrarPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/doar" element={<DoarPage />} />
           <Route path="/solicitacoes" element={<SolicitacoesPage />} />
           <Route path="/usuarios" element={<UsuariosPage />} />
+          <Route path="/entrar" element={<EntrarPage />} />
         </Routes>
       </main>
     </>
