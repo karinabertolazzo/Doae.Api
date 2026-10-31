@@ -1,29 +1,776 @@
-.entrar {
-  max-width: 520px;
-  margin: 0 auto;
+body:has(.entrar) {
+  overflow-x: clip;
 }
 
-.entrar-subtitulo {
-  margin: 0 0 20px;
-  color: var(--cor-texto-suave);
+main:has(.entrar) {
+  padding-top: 0;
+  padding-bottom: 0;
 }
+
+.entrar,
+.entrar * {
+  box-sizing: border-box;
+}
+
+/* ===== fundo ===== */
+
+.entrar {
+  position: relative;
+  width: 100vw;
+  max-width: none;
+  min-height: calc(100vh - 72px);
+  margin: 0 0 0 calc(50% - 50vw);
+  padding: 0;
+  overflow: hidden;
+  background-color: #06180f;
+  background-image: url('/imagens/bg-login.png');
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
+  isolation: isolate;
+}
+
+/* a margem esquerda fica clara (aparece a caixa); o escuro fica atrás do texto */
+.entrar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 17, 10, 0.04) 0%,
+    rgba(2, 17, 10, 0.12) 22%,
+    rgba(2, 19, 12, 0.86) 34%,
+    rgba(2, 19, 12, 0.86) 68%,
+    rgba(2, 19, 12, 0.4) 100%
+  );
+}
+
+/* ===== layout: [espaço da imagem] [texto] [painel] ===== */
+
+.entrar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  padding: 40px clamp(20px, 3vw, 60px);
+}
+
+.entrar-apresentacao {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding-left: clamp(180px, 24vw, 460px);
+}
+
+.entrar-apresentacao-conteudo {
+  width: 100%;
+  max-width: 420px;
+}
+
+.entrar-apresentacao h1 {
+  margin: 0 0 22px;
+  color: #ffffff;
+  font-size: clamp(38px, 4vw, 64px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -1px;
+}
+
+.entrar-apresentacao h1 span {
+  color: #4ade80;
+}
+
+.entrar-descricao {
+  max-width: 380px;
+  margin: 0 0 30px;
+  color: #c8dccd;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.entrar-beneficios {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.entrar-beneficio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.entrar-beneficio-icone {
+  color: #4ade80;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.entrar-beneficio h3 {
+  margin: 0 0 4px;
+  color: #f2fff5;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.entrar-beneficio p {
+  margin: 0;
+  color: #a6c4b1;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* ===== painel ===== */
+
+.entrar-painel {
+  width: 100%;
+  max-width: 500px;
+  min-width: 0;
+  justify-self: end;
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  border-radius: 22px;
+  background: rgba(8, 28, 18, 0.66);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.entrar-painel-conteudo {
+  padding: clamp(24px, 3vw, 40px);
+}
+
+.entrar-cabecalho {
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.entrar-cabecalho h2 {
+  margin: 0 0 10px;
+  color: #f7fff9;
+  font-size: clamp(25px, 2.5vw, 34px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.entrar-cabecalho p {
+  max-width: 380px;
+  margin: 0 auto;
+  color: #b0c8b9;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===== abas ===== */
 
 .entrar-abas {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 24px;
+  border: 1px solid rgba(100, 160, 115, 0.35);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(4, 16, 10, 0.5);
 }
 
 .entrar-abas .aba {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 8px;
+  width: 100%;
+  padding: 14px 10px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
   background: transparent;
+  color: #bdcfc2;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.entrar-abas .aba:hover {
+  color: #f5fff7;
+  background: rgba(74, 222, 128, 0.06);
 }
 
 .entrar-abas .aba.ativa {
-  border-color: var(--cor-primaria);
-  color: var(--cor-primaria);
-  font-weight: 600;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  font-weight: 700;
+  box-shadow: inset 0 -3px 0 #4ade80;
+}
+
+/* ===== formulário ===== */
+
+.entrar .entrar-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.entrar .entrar-formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  color: #f2fff5;
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.entrar .entrar-campo {
+  position: relative;
+  width: 100%;
+}
+
+.entrar .entrar-campo-icone {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  display: flex;
+  transform: translateY(-50%);
+  color: #8fb9a0;
+  pointer-events: none;
+}
+
+.entrar .entrar-formulario input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 49px;
+  margin: 0;
+  padding: 0 16px 0 46px;
+  border: 1px solid #355744;
+  border-radius: 10px;
+  outline: none;
+  background: rgba(8, 28, 18, 0.75);
+  color: #f5fff7;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.entrar .entrar-formulario input::placeholder {
+  color: #88a394;
+  opacity: 1;
+}
+
+.entrar .entrar-formulario input:hover {
+  border-color: #4b765b;
+}
+
+.entrar .entrar-formulario input:focus {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+.entrar .entrar-formulario input:-webkit-autofill {
+  -webkit-text-fill-color: #f5fff7;
+  -webkit-box-shadow: 0 0 0 100px #10291c inset;
+  caret-color: #f5fff7;
+}
+
+.entrar .entrar-senha-campo input {
+  padding-right: 52px;
+}
+
+.entrar .entrar-formulario .entrar-mostrar-senha {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: flex;
+  transform: translateY(-50%);
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #9ec6aa;
+  cursor: pointer;
+}
+
+.entrar .entrar-formulario .entrar-mostrar-senha:hover {
+  background: rgba(74, 222, 128, 0.08);
+  color: #4ade80;
+}
+
+/* lembrar de mim / esqueci minha senha */
+
+.entrar .entrar-opcoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: -4px;
+}
+
+.entrar .entrar-formulario .entrar-lembrar {
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  width: auto;
+  color: #d4e8da;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.entrar .entrar-formulario .entrar-lembrar input {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-content: center;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #4b765b;
+  border-radius: 5px;
+  background: rgba(8, 28, 18, 0.75);
+  cursor: pointer;
+}
+
+.entrar .entrar-formulario .entrar-lembrar input::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #4ade80;
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+
+.entrar .entrar-formulario .entrar-lembrar input:checked {
+  border-color: #4ade80;
+}
+
+.entrar .entrar-formulario .entrar-lembrar input:checked::after {
+  transform: scale(1);
+}
+
+.entrar .entrar-esqueci {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #4ade80;
+  font-family: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.entrar .entrar-esqueci:hover {
+  color: #86efac;
+}
+
+/* botão principal */
+
+.entrar .entrar-formulario .entrar-botao {
+  width: 100%;
+  min-height: 51px;
+  margin: 6px 0 0;
+  padding: 12px 20px;
+  border: 1px solid #4ade80;
+  border-radius: 10px;
+  background: #4ade80;
+  color: #052615;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.entrar .entrar-formulario .entrar-botao:hover:not(:disabled) {
+  background: #22c55e;
+  transform: translateY(-1px);
+}
+
+.entrar .entrar-formulario .entrar-botao:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* divisor e rodapé */
+
+.entrar-divisor {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0 0;
+  color: #9db8a6;
+  font-size: 13px;
+}
+
+.entrar-divisor::before,
+.entrar-divisor::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(100, 160, 115, 0.3);
+}
+
+.entrar-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 16px 0 0;
+  color: #b3cbbb;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.entrar-rodape button {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #4ade80;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.entrar-rodape button:hover {
+  color: #86efac;
+}
+
+.entrar button:focus-visible {
+  outline: 2px solid #86efac;
+  outline-offset: 3px;
+}
+
+/* ===== cadastro em duas colunas ===== */
+
+@media (min-width: 801px) {
+  .entrar .entrar-formulario-cadastro {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+  }
+
+  .entrar .entrar-formulario-cadastro > label:nth-of-type(5),
+  .entrar .entrar-formulario-cadastro > .entrar-botao {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ===== telas médias ===== */
+
+@media (max-width: 1100px) {
+  .entrar-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: 24px;
+    padding: 30px 24px;
+  }
+
+  .entrar-apresentacao {
+    padding-left: clamp(140px, 22vw, 240px);
+  }
+
+  .entrar-apresentacao h1 {
+    font-size: clamp(32px, 4.2vw, 44px);
+  }
+
+  .entrar-descricao {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .entrar-beneficios {
+    gap: 10px;
+  }
+
+  .entrar-beneficio p {
+    display: none;
+  }
+
+  .entrar-painel-conteudo {
+    padding: 26px;
+  }
+}
+
+/* ===== celular: só o painel ===== */
+
+@media (max-width: 800px) {
+  .entrar {
+    min-height: calc(100dvh - 72px);
+    background-position: 30% center;
+  }
+
+  .entrar::before {
+    background: rgba(3, 18, 10, 0.66);
+  }
+
+  .entrar-apresentacao {
+    display: none;
+  }
+
+  .entrar-layout {
+    display: block;
+    min-height: 0;
+    padding: 22px 14px 40px;
+  }
+
+  .entrar-painel {
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  .entrar-painel-conteudo {
+    padding: 26px 20px;
+  }
+}
+
+/* ===== telas baixas ===== */
+
+@media (min-width: 801px) and (max-height: 800px) {
+  .entrar-layout {
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .entrar-cabecalho {
+    margin-bottom: 16px;
+  }
+
+  .entrar-abas {
+    margin-bottom: 18px;
+  }
+
+  .entrar .entrar-formulario {
+    gap: 13px;
+  }
+
+  .entrar .entrar-formulario input {
+    height: 44px;
+  }
+
+  .entrar .entrar-formulario .entrar-botao {
+    min-height: 46px;
+  }
+
+  .entrar-divisor {
+    margin-top: 16px;
+  }
+
+  .entrar-rodape {
+    margin-top: 10px;
+  }
+}
+/* ===== mais espaço para a caixa da imagem ===== */
+
+.entrar-apresentacao {
+  padding-left: clamp(200px, 30vw, 620px);
+}
+
+.entrar-apresentacao-conteudo {
+  max-width: 400px;
+}
+
+.entrar::before {
+  background: linear-gradient(
+    90deg,
+    rgba(2, 17, 10, 0) 0%,
+    rgba(2, 17, 10, 0.06) 26%,
+    rgba(2, 19, 12, 0.82) 38%,
+    rgba(2, 19, 12, 0.86) 68%,
+    rgba(2, 19, 12, 0.4) 100%
+  );
+}
+
+@media (max-width: 1100px) {
+  .entrar-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 390px);
+    gap: 20px;
+    padding: 28px 22px;
+  }
+
+  .entrar-apresentacao {
+    padding-left: clamp(180px, 29vw, 330px);
+  }
+
+  .entrar-apresentacao h1 {
+    font-size: clamp(30px, 3.6vw, 40px);
+    letter-spacing: -0.5px;
+  }
+
+  .entrar-descricao {
+    max-width: 280px;
+    font-size: 13px;
+  }
+
+  .entrar-beneficios {
+    gap: 8px;
+  }
+
+  .entrar-beneficio h3 {
+    font-size: 11px;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 800px) {
+  .entrar-apresentacao {
+    padding-left: 0;
+  }
+
+  .entrar::before {
+    background: rgba(3, 18, 10, 0.66);
+  }
+}
+
+/* ===== estabilidade entre as abas ===== */
+
+/* reserva o espaço da barra de rolagem: a página não "pula" para o lado */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* fundo parado, não acompanha a altura do conteúdo */
+.entrar {
+  background-attachment: fixed;
+  background-position: left center;
+}
+
+/* topo do texto e do painel na mesma posição nas duas abas */
+.entrar-layout {
+  align-items: start;
+  padding-top: clamp(24px, 6vh, 64px);
+  padding-bottom: 40px;
+}
+
+.entrar-apresentacao {
+  align-self: start;
+  padding-top: clamp(40px, 14vh, 150px);
+}
+
+.entrar-painel {
+  align-self: start;
+}
+
+/* ===== cadastro mais compacto ===== */
+
+.entrar-painel:has(.entrar-formulario-cadastro) .entrar-painel-conteudo {
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+.entrar-painel:has(.entrar-formulario-cadastro) .entrar-cabecalho {
+  margin-bottom: 14px;
+}
+
+.entrar-painel:has(.entrar-formulario-cadastro) .entrar-cabecalho p,
+.entrar-painel:has(.entrar-formulario-cadastro) .entrar-divisor {
+  display: none;
+}
+
+.entrar-painel:has(.entrar-formulario-cadastro) .entrar-abas {
+  margin-bottom: 16px;
+}
+
+.entrar-painel:has(.entrar-formulario-cadastro) .entrar-rodape {
+  margin-top: 12px;
+}
+
+@media (min-width: 801px) {
+  .entrar .entrar-formulario-cadastro {
+    gap: 12px 14px;
+  }
+
+  /* nome, e-mail e senha em linha inteira; telefone e cidade lado a lado */
+  .entrar .entrar-formulario-cadastro > label:nth-of-type(1),
+  .entrar .entrar-formulario-cadastro > label:nth-of-type(2),
+  .entrar .entrar-formulario-cadastro > label:nth-of-type(5),
+  .entrar .entrar-formulario-cadastro > .entrar-botao {
+    grid-column: 1 / -1;
+  }
+
+  .entrar .entrar-formulario-cadastro input {
+    height: 44px;
+    padding-left: 42px;
+    font-size: 13px;
+  }
+
+  .entrar .entrar-formulario-cadastro .entrar-campo-icone {
+    left: 13px;
+  }
+}
+/* ===== texto depois da caixa (fundo fixo) ===== */
+
+.entrar-apresentacao {
+  padding-left: clamp(220px, 36vw, 780px);
+}
+
+.entrar::before {
+  background: linear-gradient(
+    90deg,
+    rgba(2, 17, 10, 0) 0%,
+    rgba(2, 17, 10, 0.06) 30%,
+    rgba(2, 19, 12, 0.82) 42%,
+    rgba(2, 19, 12, 0.86) 70%,
+    rgba(2, 19, 12, 0.4) 100%
+  );
+}
+
+@media (max-width: 1100px) {
+  .entrar-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+    gap: 16px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .entrar-apresentacao {
+    padding-left: clamp(200px, 35vw, 380px);
+  }
+
+  .entrar-apresentacao h1 {
+    font-size: clamp(27px, 3.3vw, 36px);
+  }
+
+  .entrar-descricao {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .entrar-beneficio h3 {
+    font-size: 10.5px;
+  }
+}
+
+@media (max-width: 800px) {
+  .entrar-apresentacao {
+    padding-left: 0;
+  }
 }

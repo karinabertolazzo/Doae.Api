@@ -19,6 +19,14 @@ const imagensCategoria = {
   Outros: '/imagens/outros.png',
 };
 
+const categoriasPadrao = [
+  { nome: 'Eletrodomésticos' },
+  { nome: 'Livros' },
+  { nome: 'Móveis' },
+  { nome: 'Outros' },
+  { nome: 'Roupas' },
+];
+
 const passos = [
   { numero: 1, icone: '📦', titulo: 'Cadastre um item', texto: 'Crie sua conta e anuncie o que você não usa mais.' },
   { numero: 2, icone: '🤝', titulo: 'Conecte-se', texto: 'Quem precisa encontra o item e envia um pedido ao doador.' },
@@ -26,20 +34,35 @@ const passos = [
 ];
 
 function HomePage() {
-  const [categorias, setCategorias] = useState([]);
+ const [categorias, setCategorias] = useState(categoriasPadrao);
   const [destaques, setDestaques] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
 
-  useEffect(() => {
-    Promise.all([categoriasApi.listar(), itensApi.listar({ status: 'Disponivel' })])
-      .then(([cats, itens]) => {
+  
+useEffect(() => {
+  categoriasApi.listar()
+    .then((cats) => {
+      if (Array.isArray(cats) && cats.length > 0) {
         setCategorias(cats);
-        setDestaques(itens.slice(0, 4));
-      })
-      .catch((e) => setErro(e.message))
-      .finally(() => setCarregando(false));
-  }, []);
+      }
+    })
+    .catch(() => {
+      setCategorias(categoriasPadrao);
+    });
+
+  itensApi.listar({ status: 'Disponivel' })
+    .then((itens) => {
+      setDestaques(itens.slice(0, 4));
+    })
+    .catch((e) => {
+      setErro(e.message);
+    })
+    .finally(() => {
+      setCarregando(false);
+    });
+}, []);
+
 
   return (
     <>
@@ -75,7 +98,7 @@ function HomePage() {
           {categorias.map((c) => (
             <Link
               key={c.id}
-              to={`/itens?categoriaId=${c.id}`}
+              to={c.id ? `/itens?categoriaId=${c.id}` : '/itens'}
               className="categoria-card"
               style={
                 imagensCategoria[c.nome]
