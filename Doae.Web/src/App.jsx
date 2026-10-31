@@ -8,6 +8,7 @@ import ItemDetalhePage from './pages/ItemDetalhePage';
 import DoarPage from './pages/DoarPage';
 import MinhaContaPage from './pages/MinhaContaPage';
 import EntrarPage from './pages/EntrarPage';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/entrar" element={<EntrarPage />} />
         </Routes>
       </main>
+      <Footer />
     </>
   );
 }
