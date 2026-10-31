@@ -4,6 +4,8 @@ using Doae.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Doae.Api.Controllers;
 
@@ -35,23 +37,30 @@ public class UsuariosController : ControllerBase
         return Ok(usuarios);
     }
 
-    /// <summary>Busca um usuário pelo id.</summary>
-    [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<UsuarioDto>> BuscarPorId(int id)
-    {
-        var usuario = await _context.Usuarios
-            .AsNoTracking()
-            .Where(u => u.Id == id)
-            .Select(u => new UsuarioDto(u.Id, u.Nome, u.Email, u.Telefone, u.Cidade, u.CriadoEm))
-            .FirstOrDefaultAsync();
+    
+/// <summary>Busca um usuário pelo id.</summary>
+[HttpGet("{id:int}")]
+[ProducesResponseType(StatusCodes.Status200OK)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+public async Task<IActionResult> BuscarPorId(int id)
+{
+    var usuario = await _context.Usuarios
+        .AsNoTracking()
+        .Where(u => u.Id == id)
+        .Select(u => new
+        {
+            u.Id,
+            u.Nome,
+            u.Cidade
+        })
+        .FirstOrDefaultAsync();
 
-        if (usuario is null)
-            return NotFound();
+    if (usuario is null)
+        return NotFound();
 
-        return Ok(usuario);
-    }
+    return Ok(usuario);
+}
+
 
     /// <summary>Cadastra um novo usuário.</summary>
     [HttpPost]
@@ -80,65 +89,104 @@ public class UsuariosController : ControllerBase
         return CreatedAtAction(nameof(BuscarPorId), new { id = usuario.Id }, ParaDto(usuario));
     }
 
-    /// <summary>Atualiza os dados de um usuário.</summary>
-    [HttpPut("{id:int}")]
-    [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<UsuarioDto>> Atualizar(int id, UsuarioRequestDto dto)
+   
+/// <summary>
+/// Atualiza os dados de um usuário.
+/// </summary>
+[Authorize]
+[HttpPut("{id:int}")]
+[ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+[ProducesResponseType(StatusCodes.Status403Forbidden)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+[ProducesResponseType(StatusCodes.Status409Conflict)]
+public async Task<ActionResult<UsuarioDto>> Atualizar(
+    int id,
+    UsuarioRequestDto dto)
+{
+    // Identifica o usuário autenticado pelo JWT.
+    var idToken = User.FindFirstValue(
+        ClaimTypes.NameIdentifier
+    );
+
+    if (!int.TryParse(idToken, out var usuarioLogadoId))
+        return Unauthorized();
+
+    // Impede que um usuário altere a conta de outro.
+    if (usuarioLogadoId != id)
+        return Forbid();
+
+    var usuario = await _context.Usuarios.FindAsync(id);
+
+    if (usuario is null)
+        return NotFound();
+
+    var email = dto.Email.Trim().ToLowerInvariant();
+
+    if (await _context.Usuarios.AnyAsync(
+        u => u.Email == email && u.Id != id))
     {
-        var usuario = await _context.Usuarios.FindAsync(id);
-
-        if (usuario is null)
-            return NotFound();
-
-        var email = dto.Email.Trim().ToLowerInvariant();
-
-        if (await _context.Usuarios.AnyAsync(u => u.Email == email && u.Id != id))
-            return EmailJaCadastrado();
-
-        usuario.Nome = dto.Nome.Trim();
-        usuario.Email = email;
-        usuario.Telefone = dto.Telefone?.Trim();
-        usuario.Cidade = dto.Cidade.Trim();
-
-        await _context.SaveChangesAsync();
-
-        return Ok(ParaDto(usuario));
+        return EmailJaCadastrado();
     }
 
-    /// <summary>Remove um usuário que não possui itens nem solicitações.</summary>
-    [HttpDelete("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> Remover(int id)
+    usuario.Nome = dto.Nome.Trim();
+    usuario.Email = email;
+    usuario.Telefone = dto.Telefone?.Trim();
+    usuario.Cidade = dto.Cidade.Trim();
+
+    await _context.SaveChangesAsync();
+
+    return Ok(ParaDto(usuario));
+}
+
+
+   
+/// <summary>Remove a própria conta, caso não possua itens nem solicitações.</summary>
+[Authorize]
+[HttpDelete("{id:int}")]
+[ProducesResponseType(StatusCodes.Status204NoContent)]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+[ProducesResponseType(StatusCodes.Status403Forbidden)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+[ProducesResponseType(StatusCodes.Status409Conflict)]
+public async Task<IActionResult> Remover(int id)
+{
+    // Identifica o usuário autenticado pelo JWT.
+    var idToken = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    if (!int.TryParse(idToken, out var usuarioLogadoId))
+        return Unauthorized();
+
+    // Impede excluir a conta de outro usuário.
+    if (usuarioLogadoId != id)
+        return Forbid();
+
+    var usuario = await _context.Usuarios.FindAsync(id);
+
+    if (usuario is null)
+        return NotFound();
+
+    var possuiVinculos =
+        await _context.Itens.AnyAsync(i => i.UsuarioId == id) ||
+        await _context.Solicitacoes.AnyAsync(s => s.SolicitanteId == id);
+
+    if (possuiVinculos)
     {
-        var usuario = await _context.Usuarios.FindAsync(id);
-
-        if (usuario is null)
-            return NotFound();
-
-        var possuiVinculos =
-            await _context.Itens.AnyAsync(i => i.UsuarioId == id) ||
-            await _context.Solicitacoes.AnyAsync(s => s.SolicitanteId == id);
-
-        if (possuiVinculos)
+        return Conflict(new ProblemDetails
         {
-            return Conflict(new ProblemDetails
-            {
-                Status = StatusCodes.Status409Conflict,
-                Title = "Não foi possível remover o usuário.",
-                Detail = "O usuário possui itens ou solicitações vinculados."
-            });
-        }
-
-        _context.Usuarios.Remove(usuario);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+            Status = StatusCodes.Status409Conflict,
+            Title = "Não foi possível remover o usuário.",
+            Detail = "O usuário possui itens ou solicitações vinculados."
+        });
     }
+
+    _context.Usuarios.Remove(usuario);
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
+
 
     private static UsuarioDto ParaDto(Usuario u) =>
         new(u.Id, u.Nome, u.Email, u.Telefone, u.Cidade, u.CriadoEm);
