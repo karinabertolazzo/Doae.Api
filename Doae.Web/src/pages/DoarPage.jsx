@@ -5,6 +5,8 @@ import { useSessao } from '../contexts/SessaoContext';
 import Aviso from '../components/Aviso';
 import './DoarPage.css';
 
+const estadosConservacao = ['Novo', 'Bom estado', 'Marcas de uso', 'Reparo'];
+
 const formularioInicial = {
   titulo: '',
   descricao: '',
@@ -97,12 +99,18 @@ function DoarPage() {
 
         <label>
           Estado de conservação
-          <input
+          <select
             value={form.estadoConservacao}
             onChange={alterar('estadoConservacao')}
-            placeholder="Ex.: Bom, Novo, Usado"
             required
-          />
+          >
+            <option value="">Selecione</option>
+            {estadosConservacao.map((estado) => (
+              <option key={estado} value={estado}>
+                {estado}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label>
