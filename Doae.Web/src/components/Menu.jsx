@@ -26,8 +26,8 @@ function Menu() {
               <NavLink to="/doar" className={classe}>
                 Doar um item
               </NavLink>
-              <NavLink to="/solicitacoes" className={classe}>
-                Solicitações
+              <NavLink to="/minha-conta" className={classe}>
+                Minha conta
               </NavLink>
             </>
           )}

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { itensApi, categoriasApi, usuariosApi } from '../services/api';
+import { Link } from 'react-router-dom';
+import { itensApi, categoriasApi } from '../services/api';
+import { useSessao } from '../contexts/SessaoContext';
 import Aviso from '../components/Aviso';
 import './DoarPage.css';
 
@@ -8,25 +10,40 @@ const formularioInicial = {
   descricao: '',
   estadoConservacao: '',
   cidade: '',
-  usuarioId: '',
   categoriaId: '',
 };
 
 function DoarPage() {
+  const { usuario } = useSessao();
   const [form, setForm] = useState(formularioInicial);
   const [categorias, setCategorias] = useState([]);
-  const [usuarios, setUsuarios] = useState([]);
   const [enviando, setEnviando] = useState(false);
   const [aviso, setAviso] = useState({ tipo: '', mensagem: '' });
 
   useEffect(() => {
-    Promise.all([categoriasApi.listar(), usuariosApi.listar()])
-      .then(([cats, usus]) => {
-        setCategorias(cats);
-        setUsuarios(usus);
-      })
+    categoriasApi
+      .listar()
+      .then(setCategorias)
       .catch((e) => setAviso({ tipo: 'erro', mensagem: e.message }));
   }, []);
+
+  useEffect(() => {
+    if (usuario) {
+      setForm((atual) => ({ ...atual, cidade: atual.cidade || usuario.cidade }));
+    }
+  }, [usuario]);
+
+  if (!usuario) {
+    return (
+      <section>
+        <h2>Doar um item</h2>
+        <p>
+          Para doar um item, você precisa estar logado.{' '}
+          <Link to="/entrar">Entre ou crie sua conta.</Link>
+        </p>
+      </section>
+    );
+  }
 
   const alterar = (campo) => (evento) =>
     setForm({ ...form, [campo]: evento.target.value });
@@ -37,11 +54,11 @@ function DoarPage() {
     try {
       await itensApi.criar({
         ...form,
-        usuarioId: Number(form.usuarioId),
+        usuarioId: usuario.id,
         categoriaId: Number(form.categoriaId),
       });
       setAviso({ tipo: 'sucesso', mensagem: 'Item cadastrado com sucesso!' });
-      setForm(formularioInicial);
+      setForm({ ...formularioInicial, cidade: usuario.cidade });
     } catch (e) {
       setAviso({ tipo: 'erro', mensagem: e.message });
     } finally {
@@ -52,6 +69,9 @@ function DoarPage() {
   return (
     <section>
       <h2>Doar um item</h2>
+      <p>
+        Você está doando como <strong>{usuario.nome}</strong>.
+      </p>
 
       <Aviso
         tipo={aviso.tipo}
@@ -95,17 +115,9 @@ function DoarPage() {
           <select value={form.categoriaId} onChange={alterar('categoriaId')} required>
             <option value="">Selecione</option>
             {categorias.map((c) => (
-              <option key={c.id} value={c.id}>{c.nome}</option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Doador
-          <select value={form.usuarioId} onChange={alterar('usuarioId')} required>
-            <option value="">Selecione</option>
-            {usuarios.map((u) => (
-              <option key={u.id} value={u.id}>{u.nome}</option>
+              <option key={c.id} value={c.id}>
+                {c.nome}
+              </option>
             ))}
           </select>
         </label>

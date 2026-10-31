@@ -108,3 +108,15 @@
 .link-detalhes:hover {
   background: rgba(74, 222, 128, 0.12);
 }
+
+.item-card-solicitar {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.item-card-solicitar textarea {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font: inherit;
+}
