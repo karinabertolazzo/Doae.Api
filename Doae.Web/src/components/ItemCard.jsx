@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './ItemCard.css';
 
+const estadosConservacao = ['Novo', 'Bom estado', 'Marcas de uso', 'Reparo'];
+
 function ItemCard({ item, usuario, categorias = [], aoEditar, aoExcluir, aoSolicitar }) {
   const [editando, setEditando] = useState(false);
   const [solicitando, setSolicitando] = useState(false);
@@ -51,11 +53,19 @@ function ItemCard({ item, usuario, categorias = [], aoEditar, aoExcluir, aoSolic
   };
 
   if (editando) {
+    const opcoesEstado = estadosConservacao.includes(form.estadoConservacao)
+      ? estadosConservacao
+      : [form.estadoConservacao, ...estadosConservacao];
+
     return (
       <form className="item-card item-card-form" onSubmit={salvar}>
         <input value={form.titulo} onChange={alterar('titulo')} required />
         <textarea value={form.descricao} onChange={alterar('descricao')} rows={2} required />
-        <input value={form.estadoConservacao} onChange={alterar('estadoConservacao')} required />
+        <select value={form.estadoConservacao} onChange={alterar('estadoConservacao')} required>
+          {opcoesEstado.map((estado) => (
+            <option key={estado} value={estado}>{estado}</option>
+          ))}
+        </select>
         <input value={form.cidade} onChange={alterar('cidade')} required />
         <select value={form.categoriaId} onChange={alterar('categoriaId')} required>
           {categorias.map((c) => (

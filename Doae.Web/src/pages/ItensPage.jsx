@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { itensApi, categoriasApi, solicitacoesApi } from '../services/api';
 import { useSessao } from '../contexts/SessaoContext';
 import ItemCard from '../components/ItemCard';
@@ -7,11 +8,26 @@ import './ItensPage.css';
 
 const filtrosIniciais = { busca: '', categoriaId: '', cidade: '', status: '' };
 
+function cidadesUnicas(itens) {
+  const mapa = new Map();
+  itens.forEach((i) => {
+    const chave = i.cidade.trim().toLowerCase();
+    if (chave && !mapa.has(chave)) mapa.set(chave, i.cidade.trim());
+  });
+  return [...mapa.values()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+}
+
 function ItensPage() {
   const { usuario } = useSessao();
+  const [parametros] = useSearchParams();
   const [itens, setItens] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [filtros, setFiltros] = useState(filtrosIniciais);
+  const [cidades, setCidades] = useState([]);
+  const [filtros, setFiltros] = useState({
+    ...filtrosIniciais,
+    categoriaId: parametros.get('categoriaId') ?? '',
+    status: parametros.get('status') ?? '',
+  });
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
@@ -23,6 +39,13 @@ function ItensPage() {
       .then(setCategorias)
       .catch((e) => setErro(e.message));
   }, []);
+
+  useEffect(() => {
+    itensApi
+      .listar()
+      .then((todos) => setCidades(cidadesUnicas(todos)))
+      .catch((e) => setErro(e.message));
+  }, [versao]);
 
   useEffect(() => {
     setCarregando(true);
@@ -59,7 +82,7 @@ function ItensPage() {
   const solicitar = (itemId, mensagem) =>
     executar(
       () => solicitacoesApi.criar({ itemId, solicitanteId: usuario.id, mensagem }),
-      'Pedido enviado! Acompanhe em Solicitações.',
+      'Pedido enviado! Acompanhe em Minha conta.',
     );
 
   return (
@@ -84,12 +107,14 @@ function ItensPage() {
             </option>
           ))}
         </select>
-        <input
-          type="text"
-          placeholder="Cidade"
-          value={filtros.cidade}
-          onChange={alterarFiltro('cidade')}
-        />
+        <select value={filtros.cidade} onChange={alterarFiltro('cidade')}>
+          <option value="">Todas as cidades</option>
+          {cidades.map((cidade) => (
+            <option key={cidade} value={cidade}>
+              {cidade}
+            </option>
+          ))}
+        </select>
         <select value={filtros.status} onChange={alterarFiltro('status')}>
           <option value="">Todos os status</option>
           <option value="Disponivel">Disponível</option>

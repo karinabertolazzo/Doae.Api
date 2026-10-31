@@ -63,7 +63,7 @@ function ItemDetalhePage() {
 
   return (
     <section>
-      <Link to="/" className="detalhe-voltar">← Voltar para os itens</Link>
+      <Link to="/itens" className="detalhe-voltar">← Voltar para os itens</Link>
 
       <Aviso
         tipo={aviso.tipo}
