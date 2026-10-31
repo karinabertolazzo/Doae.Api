@@ -5,7 +5,8 @@ public enum StatusSolicitacao
     Pendente,
     Aceita,
     Recusada,
-    Cancelada
+    Cancelada,
+    Concluida
 }
 
 public class Solicitacao

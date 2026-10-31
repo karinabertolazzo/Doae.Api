@@ -128,7 +128,9 @@ public class AuthController : ControllerBase
             usuario = new
             {
                 usuario.Id,
-                usuario.Nome
+                usuario.Nome,
+                usuario.Email,
+                usuario.Cidade
             }
         });
     }
