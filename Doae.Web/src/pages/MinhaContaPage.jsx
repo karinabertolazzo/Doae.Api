@@ -20,7 +20,10 @@ function MinhaContaPage() {
     mensagem: '',
   });
 
+  // Carrega os itens e as solicitações do usuário.
   const carregar = async () => {
+    if (!usuario) return;
+
     try {
       const [itens, solicitacoes] = await Promise.all([
         itensApi.listar(),
@@ -47,7 +50,10 @@ function MinhaContaPage() {
         )
       );
     } catch (e) {
-      setAviso({ tipo: 'erro', mensagem: e.message });
+      setAviso({
+        tipo: 'erro',
+        mensagem: e.message,
+      });
     }
   };
 
@@ -56,13 +62,20 @@ function MinhaContaPage() {
 
     if (usuario) {
       carregar();
+    } else {
+      setMeusItens([]);
+      setFeitas([]);
+      setRecebidas([]);
     }
   }, [usuario?.id]);
 
+  // Executa ações e atualiza a página.
   const executar = (acao, textoSucesso) => async (id) => {
     try {
       await acao(id);
+
       setContato(null);
+
       setAviso({
         tipo: 'sucesso',
         mensagem: textoSucesso,
@@ -70,11 +83,14 @@ function MinhaContaPage() {
 
       await carregar();
     } catch (e) {
-      setAviso({ tipo: 'erro', mensagem: e.message });
+      setAviso({
+        tipo: 'erro',
+        mensagem: e.message,
+      });
     }
   };
 
-  // Consulta o contato autorizado pela API.
+  // Busca os contatos autorizados pela API.
   const combinar = async (id) => {
     try {
       setContato(null);
@@ -82,12 +98,16 @@ function MinhaContaPage() {
       const dados = await solicitacoesApi.contatos(id);
 
       setContato(dados);
+      setAviso({ tipo: '', mensagem: '' });
     } catch (e) {
-      setAviso({ tipo: 'erro', mensagem: e.message });
+      setAviso({
+        tipo: 'erro',
+        mensagem: e.message,
+      });
     }
   };
 
-  // Somente o doador pode confirmar a entrega.
+  // Confirma que a entrega foi realizada.
   const confirmarEntrega = async (id) => {
     const confirmou = window.confirm(
       'Você confirma que o item foi entregue?'
@@ -105,9 +125,12 @@ function MinhaContaPage() {
     return (
       <section>
         <h2>Minha conta</h2>
+
         <p>
           Você precisa estar logado.{' '}
-          <Link to="/entrar">Entre ou crie sua conta.</Link>
+          <Link to="/entrar">
+            Entre ou crie sua conta.
+          </Link>
         </p>
       </section>
     );
@@ -118,44 +141,22 @@ function MinhaContaPage() {
       <h2>Minha conta</h2>
 
       <p className="conta-info">
-        <strong>{usuario.nome}</strong> · {usuario.email} · {usuario.cidade}
+        <strong>{usuario.nome}</strong>
+        {' · '}
+        {usuario.email}
+        {' · '}
+        {usuario.cidade}
       </p>
 
       <Aviso
         tipo={aviso.tipo}
         mensagem={aviso.mensagem}
-        aoFechar={() => setAviso({ tipo: '', mensagem: '' })}
+        aoFechar={() =>
+          setAviso({ tipo: '', mensagem: '' })
+        }
       />
 
-      {contato && (
-        <div className="conta-contato" role="region" aria-label="Contato da doação">
-          <h3>Contato para combinar a doação</h3>
-
-          <p>
-            <strong>{contato.tipoContato}:</strong> {contato.nome}
-          </p>
-
-          <p>
-            <strong>E-mail:</strong> {contato.email}
-          </p>
-
-          <p>
-            <strong>Telefone:</strong> {contato.telefone || 'Não informado'}
-          </p>
-
-          <p>
-            <strong>Cidade:</strong> {contato.cidade}
-          </p>
-
-          <button
-            type="button"
-            onClick={() => setContato(null)}
-          >
-            Fechar contato
-          </button>
-        </div>
-      )}
-
+      {/* PEDIDOS QUE RECEBI */}
       <h3>Pedidos que recebi</h3>
 
       {recebidas.length === 0 && (
@@ -167,24 +168,37 @@ function MinhaContaPage() {
           <SolicitacaoCard
             key={s.id}
             solicitacao={s}
+
             aoAceitar={executar(
               solicitacoesApi.aceitar,
               'Pedido aceito! O item foi reservado.'
             )}
+
             aoRecusar={executar(
               solicitacoesApi.recusar,
               'Pedido recusado.'
             )}
-            aoCombinar={
-          contato?.solicitacaoId === s.id ? undefined : combinar
-  }
-              textoCombinar="Combinar entrega"
+
+            aoCombinar={combinar}
+            textoCombinar="Combinar entrega"
+
             aoConcluir={confirmarEntrega}
+
+            contato={
+              contato?.solicitacaoId === s.id
+                ? contato
+                : null
+            }
+
+            aoFecharContato={() => setContato(null)}
           />
         ))}
       </div>
 
-      <h3 className="conta-titulo">Pedidos que fiz</h3>
+      {/* PEDIDOS QUE FIZ */}
+      <h3 className="conta-titulo">
+        Pedidos que fiz
+      </h3>
 
       {feitas.length === 0 && (
         <p>Você ainda não pediu nenhum item.</p>
@@ -195,19 +209,30 @@ function MinhaContaPage() {
           <SolicitacaoCard
             key={s.id}
             solicitacao={s}
+
             aoCancelar={executar(
               solicitacoesApi.cancelar,
               'Pedido cancelado.'
             )}
-            aoCombinar={
-            contato?.solicitacaoId === s.id ? undefined : combinar
-}
+
+            aoCombinar={combinar}
             textoCombinar="Combinar retirada"
+
+            contato={
+              contato?.solicitacaoId === s.id
+                ? contato
+                : null
+            }
+
+            aoFecharContato={() => setContato(null)}
           />
         ))}
       </div>
 
-      <h3 className="conta-titulo">Meus itens para doação</h3>
+      {/* MEUS ITENS */}
+      <h3 className="conta-titulo">
+        Meus itens para doação
+      </h3>
 
       {meusItens.length === 0 && (
         <p>

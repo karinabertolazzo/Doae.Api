@@ -1,3 +1,8 @@
+
+/* ========================================
+   CARD DE SOLICITAÇÃO
+======================================== */
+
 .solicitacao-card {
   background: var(--cor-card);
   border: 1px solid var(--cor-borda);
@@ -15,10 +20,19 @@
   color: var(--cor-texto);
 }
 
+/* ========================================
+   TÍTULO E STATUS
+======================================== */
+
 .solicitacao-topo {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.solicitacao-topo h3 {
+  margin: 0 0 12px;
 }
 
 .selo-status {
@@ -28,6 +42,7 @@
   border-radius: 999px;
   height: fit-content;
   border: 1px solid;
+  white-space: nowrap;
 }
 
 .status-pendente {
@@ -54,20 +69,39 @@
   border-color: var(--cor-borda);
 }
 
+.status-concluida {
+  background: rgba(155, 181, 165, 0.08);
+  color: #d1fae5;
+  border-color: #9bb5a5;
+}
+
+/* ========================================
+   BOTÕES DE AÇÃO
+======================================== */
+
 .solicitacao-acoes {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .solicitacao-acoes button {
-  padding: 6px 12px;
+  padding: 8px 13px;
   border: 1px solid var(--cor-borda);
   border-radius: 8px;
   background: transparent;
+  color: var(--cor-texto);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+              border-color 0.2s ease;
 }
 
 .solicitacao-acoes button:hover {
+  background: rgba(74, 222, 128, 0.06);
   border-color: var(--cor-primaria);
 }
 
@@ -76,4 +110,87 @@
   border-color: var(--cor-primaria);
   color: #06110b;
   font-weight: 600;
+}
+
+.solicitacao-acoes .btn-aceitar:hover {
+  background: #22c55e;
+}
+
+/* ========================================
+   DETALHES EXPANSÍVEIS DO ITEM
+======================================== */
+
+.solicitacao-detalhes {
+  margin-top: 18px;
+  padding: 18px 20px;
+  background: #0b2117;
+  border: 1px solid #28523a;
+  border-radius: 10px;
+}
+
+.solicitacao-detalhes h4 {
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #28523a;
+  color: #e9fff0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Informações em duas colunas */
+
+.solicitacao-detalhes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+  margin-bottom: 16px;
+}
+
+.solicitacao-detalhes p {
+  margin: 0;
+  color: #e2f3e8;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.solicitacao-detalhes strong {
+  display: block;
+  color: #86b99b;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+/* ========================================
+   MENSAGENS DE ERRO
+======================================== */
+
+.solicitacao-card .solicitacao-erro {
+  margin-top: 12px;
+  color: #fca5a5;
+  font-size: 13px;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 480px) {
+  .solicitacao-card {
+    padding: 14px;
+  }
+
+  .solicitacao-detalhes {
+    padding: 16px;
+  }
+
+  .solicitacao-detalhes-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .solicitacao-acoes {
+    gap: 8px;
+  }
 }
