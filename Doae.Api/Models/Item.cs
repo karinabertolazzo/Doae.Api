@@ -3,7 +3,8 @@ namespace Doae.Api.Models;
 public enum StatusItem
 {
     Disponivel,
-    Doado
+    Doado,
+    Reservado
 }
 
 public class Item
