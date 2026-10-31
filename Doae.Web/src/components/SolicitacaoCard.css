@@ -1,188 +1,306 @@
 
-/* ========================================
-   CARD DE SOLICITAÇÃO
-======================================== */
-
 .solicitacao-card {
-  background: var(--cor-card);
-  border: 1px solid var(--cor-borda);
-  border-radius: 14px;
-  padding: 16px 18px;
-  backdrop-filter: blur(6px);
+  width: 100%;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(65, 123, 84, 0.48);
+  border-radius: 12px;
+  background: linear-gradient(
+    145deg,
+    rgba(10, 33, 22, 0.96),
+    rgba(4, 23, 15, 0.98)
+  );
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.13);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.solicitacao-card p {
-  margin: 0 0 6px;
-  color: var(--cor-texto-suave);
+.solicitacao-card:hover {
+  border-color: rgba(73, 190, 111, 0.65);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
 }
-
-.solicitacao-card strong {
-  color: var(--cor-texto);
-}
-
-/* ========================================
-   TÍTULO E STATUS
-======================================== */
 
 .solicitacao-topo {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 12px;
+  margin-bottom: 11px;
 }
 
 .solicitacao-topo h3 {
-  margin: 0 0 12px;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #f3fff6;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.solicitacao-card > p {
+  margin: 0 0 8px;
+  color: #aec8b8;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.solicitacao-card > p strong {
+  color: #e6f5eb;
+  font-weight: 650;
+}
+
+.solicitacao-card > p:nth-of-type(2) {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-left: 2px solid #3caa6b;
+  border-radius: 0 7px 7px 0;
+  background: rgba(0, 15, 9, 0.48);
+  color: #cadbd0;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.65;
 }
 
 .selo-status {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 999px;
-  height: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 25px;
+  padding: 4px 10px;
   border: 1px solid;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.3;
   white-space: nowrap;
 }
 
 .status-pendente {
-  background: rgba(251, 191, 36, 0.12);
-  color: #fbbf24;
-  border-color: #fbbf24;
+  border-color: rgba(238, 174, 63, 0.48);
+  background: rgba(238, 174, 63, 0.10);
+  color: #ffd27b;
 }
 
 .status-aceita {
-  background: rgba(74, 222, 128, 0.12);
-  color: var(--cor-sucesso);
-  border-color: var(--cor-sucesso);
+  border-color: rgba(64, 213, 120, 0.53);
+  background: rgba(64, 213, 120, 0.12);
+  color: #70f3a4;
 }
 
 .status-recusada {
-  background: rgba(248, 113, 113, 0.12);
-  color: var(--cor-erro);
-  border-color: var(--cor-erro);
+  border-color: rgba(239, 100, 100, 0.48);
+  background: rgba(239, 100, 100, 0.10);
+  color: #ffaaaa;
 }
 
 .status-cancelada {
-  background: rgba(155, 181, 165, 0.12);
-  color: var(--cor-texto-suave);
-  border-color: var(--cor-borda);
+  border-color: rgba(145, 165, 151, 0.38);
+  background: rgba(145, 165, 151, 0.10);
+  color: #b8c9be;
 }
 
 .status-concluida {
-  background: rgba(155, 181, 165, 0.08);
-  color: #d1fae5;
-  border-color: #9bb5a5;
+  border-color: rgba(63, 181, 126, 0.45);
+  background: rgba(63, 181, 126, 0.12);
+  color: #b1f4d0;
 }
-
-/* ========================================
-   BOTÕES DE AÇÃO
-======================================== */
 
 .solicitacao-acoes {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(86, 140, 103, 0.19);
 }
 
 .solicitacao-acoes button {
-  padding: 8px 13px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--cor-texto);
-  font-size: 13px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid #315b42;
+  border-radius: 7px;
+  background: rgba(9, 33, 21, 0.76);
+  color: #e3f4e9;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+  text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease,
-              border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.solicitacao-acoes button:hover {
-  background: rgba(74, 222, 128, 0.06);
-  border-color: var(--cor-primaria);
+.solicitacao-acoes button:hover:not(:disabled) {
+  border-color: #51aa74;
+  background: #17402a;
+  transform: translateY(-1px);
+}
+
+.solicitacao-acoes button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.solicitacao-acoes button:focus-visible {
+  outline: 2px solid #75f1a7;
+  outline-offset: 3px;
+}
+
+.solicitacao-acoes button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .solicitacao-acoes .btn-aceitar {
-  background: var(--cor-primaria);
-  border-color: var(--cor-primaria);
-  color: #06110b;
-  font-weight: 600;
+  border-color: #45d680;
+  background: #43dc81;
+  color: #052515;
+  font-weight: 750;
 }
 
-.solicitacao-acoes .btn-aceitar:hover {
-  background: #22c55e;
+.solicitacao-acoes .btn-aceitar:hover:not(:disabled) {
+  border-color: #6ff2a2;
+  background: #67eda0;
 }
-
-/* ========================================
-   DETALHES EXPANSÍVEIS DO ITEM
-======================================== */
 
 .solicitacao-detalhes {
-  margin-top: 18px;
-  padding: 18px 20px;
-  background: #0b2117;
-  border: 1px solid #28523a;
+  min-width: 0;
+  margin-top: 15px;
+  padding: 16px;
+  border: 1px solid rgba(65, 123, 84, 0.52);
   border-radius: 10px;
+  background: rgba(1, 18, 11, 0.7);
 }
 
 .solicitacao-detalhes h4 {
-  margin: 0 0 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #28523a;
-  color: #e9fff0;
-  font-size: 15px;
-  font-weight: 600;
+  margin: 0 0 14px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid #234933;
+  color: #edfff3;
+  font-size: 13px;
+  font-weight: 750;
 }
-
-/* Informações em duas colunas */
 
 .solicitacao-detalhes-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px 24px;
-  margin-bottom: 16px;
+  gap: 13px 17px;
+  margin-bottom: 14px;
 }
 
 .solicitacao-detalhes p {
   margin: 0;
-  color: #e2f3e8;
-  font-size: 14px;
+  color: #d4e9db;
+  font-size: 12px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
 .solicitacao-detalhes strong {
   display: block;
-  color: #86b99b;
-  font-size: 12px;
-  font-weight: 500;
   margin-bottom: 4px;
+  color: #8ab89b;
+  font-size: 10px;
+  font-weight: 650;
 }
 
-/* ========================================
-   MENSAGENS DE ERRO
-======================================== */
+.solicitacao-detalhes > p {
+  padding-top: 13px;
+  border-top: 1px solid rgba(86, 140, 103, 0.2);
+}
 
 .solicitacao-card .solicitacao-erro {
-  margin-top: 12px;
-  color: #fca5a5;
+  margin: 13px 0 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(239, 100, 100, 0.36);
+  border-radius: 8px;
+  background: rgba(239, 100, 100, 0.08);
+  color: #ffadad;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.solicitacao-card .conta-contato {
+  width: 100%;
+  max-width: none;
+  margin: 15px 0 0;
+  padding: 16px;
+  border: 1px solid #316548;
+  border-radius: 10px;
+  background: rgba(1, 18, 11, 0.78);
+}
+
+.solicitacao-card .conta-contato h3 {
+  color: #edfff3;
   font-size: 13px;
 }
 
-/* ========================================
-   RESPONSIVIDADE
-======================================== */
+.solicitacao-card .conta-contato p {
+  color: #d4e9db;
+  font-size: 12px;
+}
 
-@media (max-width: 480px) {
+.solicitacao-card .conta-contato p strong {
+  color: #8ab89b;
+  font-size: 10px;
+}
+
+.solicitacao-card .conta-contato button {
+  border: 1px solid #376c4c;
+  border-radius: 7px;
+  background: transparent;
+  color: #d4f5df;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.solicitacao-card .conta-contato button:hover {
+  background: #173e29;
+}
+
+@media (max-width: 650px) {
   .solicitacao-card {
     padding: 14px;
   }
 
+  .solicitacao-topo h3 {
+    font-size: 14px;
+  }
+
+  .solicitacao-acoes {
+    gap: 7px;
+  }
+
+  .solicitacao-acoes button {
+    min-height: 35px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .solicitacao-topo {
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .solicitacao-acoes button {
+    flex: 1 1 120px;
+  }
+
   .solicitacao-detalhes {
-    padding: 16px;
+    padding: 13px;
   }
 
   .solicitacao-detalhes-grid {
@@ -190,7 +308,8 @@
     gap: 12px;
   }
 
-  .solicitacao-acoes {
-    gap: 8px;
+  .solicitacao-card .conta-contato {
+    grid-template-columns: 1fr;
+    padding: 13px;
   }
 }
