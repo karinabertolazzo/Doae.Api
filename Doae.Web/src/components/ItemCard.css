@@ -1,8 +1,11 @@
 .item-card {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px 16px;
+  padding: 16px;
   background: var(--cor-card);
   border: 1px solid var(--cor-borda);
-  border-radius: 14px;
-  padding: 18px;
+  border-radius: 16px;
   backdrop-filter: blur(6px);
   transition: transform 0.2s, border-color 0.2s;
 }
@@ -12,6 +15,24 @@
   border-color: var(--cor-primaria);
 }
 
+.item-card-imagem {
+  align-self: start;
+  width: 112px;
+  height: 150px;
+  border-radius: 12px;
+  background-color: var(--cor-card-solido);
+  background-size: cover;
+  background-position: center;
+}
+
+.item-card-corpo {
+  min-width: 0;
+}
+
+.item-card-rodape {
+  grid-column: 1 / -1;
+}
+
 .item-card-topo {
   display: flex;
   justify-content: space-between;
@@ -19,104 +40,179 @@
   gap: 8px;
 }
 
+.item-card-topo h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
 .item-card-descricao {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--cor-texto-suave);
+  font-size: 0.9rem;
 }
 
 .item-card-detalhes {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 0.9rem;
   display: grid;
-  gap: 4px;
+  gap: 5px;
+  font-size: 0.85rem;
 }
 
-.selo {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-.selo-disponivel {
-  background: rgba(74, 222, 128, 0.15);
-  color: var(--cor-sucesso);
-  border: 1px solid var(--cor-sucesso);
-}
-
-.selo-doado {
-  background: rgba(155, 181, 165, 0.15);
-  color: var(--cor-texto-suave);
-  border: 1px solid var(--cor-borda);
-}
-
-.item-card-form {
-  display: grid;
+.item-card-detalhes li {
+  display: flex;
+  align-items: center;
   gap: 8px;
 }
 
-.item-card-form input,
-.item-card-form textarea,
-.item-card-form select {
-  padding: 6px 8px;
-  border-radius: 6px;
-  font: inherit;
+.item-card-detalhes svg {
+  flex-shrink: 0;
+  color: var(--cor-destaque);
 }
+
+/* ===== selos de status (usados também na Home e no detalhe) ===== */
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.selo::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.selo-disponivel {
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--cor-sucesso);
+  border-color: var(--cor-sucesso);
+}
+
+.selo-reservado {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  border-color: #fbbf24;
+}
+
+.selo-doado {
+  background: rgba(155, 181, 165, 0.14);
+  color: var(--cor-texto-suave);
+  border-color: var(--cor-borda);
+}
+
+/* ===== botões ===== */
 
 .item-card-acoes {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
 }
 
-.item-card-acoes button {
-  padding: 6px 12px;
+.item-card-acoes button,
+.link-detalhes,
+.link-solicitar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
   border: 1px solid var(--cor-borda);
-  border-radius: 8px;
+  border-radius: 10px;
   background: transparent;
+  color: var(--cor-texto);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .item-card-acoes button:hover {
   border-color: var(--cor-primaria);
 }
 
-.item-card-acoes .btn-principal {
-  background: var(--cor-primaria);
+.link-detalhes,
+.btn-confirmar {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+.link-detalhes:hover,
+.item-card-acoes .btn-confirmar:hover {
+  background: #15803d;
+  border-color: #15803d;
+}
+
+.btn-solicitar,
+.link-solicitar {
   border-color: var(--cor-primaria);
-  color: #06110b;
-  font-weight: 600;
+  color: var(--cor-primaria);
+}
+
+.link-solicitar:hover,
+.item-card-acoes .btn-solicitar:hover:not(:disabled) {
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.item-card-acoes .btn-solicitar:disabled {
+  border-color: var(--cor-borda);
+  color: var(--cor-texto-suave);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .item-card-acoes .btn-excluir {
+  border-color: var(--cor-erro);
   color: var(--cor-erro);
+}
+
+.item-card-acoes .btn-excluir:hover {
+  background: rgba(248, 113, 113, 0.12);
   border-color: var(--cor-erro);
 }
 
-.link-detalhes {
-  padding: 6px 12px;
-  border: 1px solid var(--cor-primaria);
-  border-radius: 8px;
-  color: var(--cor-primaria);
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.link-detalhes:hover {
-  background: rgba(74, 222, 128, 0.12);
-}
+/* ===== solicitar e editar ===== */
 
 .item-card-solicitar {
   display: grid;
   gap: 8px;
-  margin-top: 14px;
 }
 
-.item-card-solicitar textarea {
+.item-card-solicitar textarea,
+.item-card-form input,
+.item-card-form textarea,
+.item-card-form select {
   padding: 8px 10px;
   border-radius: 8px;
   font: inherit;
+}
+
+.item-card.item-card-form {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+/* ===== celular ===== */
+
+@media (max-width: 460px) {
+  .item-card {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .item-card-imagem {
+    width: 88px;
+    height: 120px;
+  }
 }
