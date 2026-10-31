@@ -3,6 +3,7 @@ using Doae.Api.Dtos;
 using Doae.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Doae.Api.Controllers;
 
@@ -11,10 +12,13 @@ namespace Doae.Api.Controllers;
 public class UsuariosController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IPasswordHasher<Usuario> _passwordHasher;
 
-    public UsuariosController(AppDbContext context)
+    public UsuariosController(AppDbContext context,  
+    IPasswordHasher<Usuario> passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     /// <summary>Lista todos os usuários.</summary>
@@ -54,7 +58,7 @@ public class UsuariosController : ControllerBase
     [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<UsuarioDto>> Criar(UsuarioRequestDto dto)
+    public async Task<ActionResult<UsuarioDto>> Criar(UsuarioCadastroRequestDto dto)
     {
         var email = dto.Email.Trim().ToLowerInvariant();
 
@@ -68,7 +72,8 @@ public class UsuariosController : ControllerBase
             Telefone = dto.Telefone?.Trim(),
             Cidade = dto.Cidade.Trim()
         };
-
+        
+        usuario.SenhaHash = _passwordHasher.HashPassword(usuario, dto.Senha);
         _context.Usuarios.Add(usuario);
         await _context.SaveChangesAsync();
 
