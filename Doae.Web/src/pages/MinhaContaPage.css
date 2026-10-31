@@ -35,3 +35,70 @@
   text-decoration: none;
   font-weight: 600;
 }
+
+
+/* Card de contato da doação */
+.conta-contato {
+  background: #0b2117;
+  border: 1px solid #28523a;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0 32px;
+  max-width: 560px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.conta-contato h3 {
+  grid-column: 1 / -1;
+  color: #f0fdf4;
+  font-size: 17px;
+  margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #28523a;
+}
+
+.conta-contato p {
+  margin: 0;
+  color: #e2f3e8;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.conta-contato p strong {
+  display: block;
+  color: #86b99b;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.conta-contato button {
+  grid-column: 1 / -1;
+  justify-self: start;
+
+  background: transparent;
+  color: #d1fae5;
+  border: 1px solid #356347;
+  border-radius: 8px;
+  padding: 9px 15px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s ease;
+}
+
+.conta-contato button:hover {
+  background: #173b28;
+}
+
+@media (max-width: 480px) {
+  .conta-contato {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+}
