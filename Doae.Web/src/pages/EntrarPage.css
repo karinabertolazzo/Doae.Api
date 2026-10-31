@@ -1,0 +1,29 @@
+.entrar {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.entrar-subtitulo {
+  margin: 0 0 20px;
+  color: var(--cor-texto-suave);
+}
+
+.entrar-abas {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.entrar-abas .aba {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: transparent;
+}
+
+.entrar-abas .aba.ativa {
+  border-color: var(--cor-primaria);
+  color: var(--cor-primaria);
+  font-weight: 600;
+}

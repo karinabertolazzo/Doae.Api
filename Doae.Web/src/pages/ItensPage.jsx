@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { itensApi, categoriasApi } from '../services/api';
+import { itensApi, categoriasApi, solicitacoesApi } from '../services/api';
+import { useSessao } from '../contexts/SessaoContext';
 import ItemCard from '../components/ItemCard';
 import Aviso from '../components/Aviso';
 import './ItensPage.css';
@@ -7,6 +8,7 @@ import './ItensPage.css';
 const filtrosIniciais = { busca: '', categoriaId: '', cidade: '', status: '' };
 
 function ItensPage() {
+  const { usuario } = useSessao();
   const [itens, setItens] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtros, setFiltros] = useState(filtrosIniciais);
@@ -26,9 +28,7 @@ function ItensPage() {
     setCarregando(true);
     itensApi
       .listar(filtros)
-      .then((dados) => {
-        setItens(dados);
-      })
+      .then(setItens)
       .catch((e) => setErro(e.message))
       .finally(() => setCarregando(false));
   }, [filtros, versao]);
@@ -36,10 +36,10 @@ function ItensPage() {
   const alterarFiltro = (campo) => (evento) =>
     setFiltros({ ...filtros, [campo]: evento.target.value });
 
-  const editar = async (id, dados) => {
+  const executar = async (acao, textoSucesso) => {
     try {
-      await itensApi.atualizar(id, dados);
-      setSucesso('Item atualizado com sucesso!');
+      await acao();
+      setSucesso(textoSucesso);
       setErro('');
       setVersao((v) => v + 1);
       return true;
@@ -50,17 +50,17 @@ function ItensPage() {
     }
   };
 
-  const excluir = async (id) => {
-    try {
-      await itensApi.remover(id);
-      setSucesso('Item excluído com sucesso!');
-      setErro('');
-      setVersao((v) => v + 1);
-    } catch (e) {
-      setErro(e.message);
-      setSucesso('');
-    }
-  };
+  const editar = (id, dados) =>
+    executar(() => itensApi.atualizar(id, dados), 'Item atualizado com sucesso!');
+
+  const excluir = (id) =>
+    executar(() => itensApi.remover(id), 'Item excluído com sucesso!');
+
+  const solicitar = (itemId, mensagem) =>
+    executar(
+      () => solicitacoesApi.criar({ itemId, solicitanteId: usuario.id, mensagem }),
+      'Pedido enviado! Acompanhe em Solicitações.',
+    );
 
   return (
     <section>
@@ -109,9 +109,11 @@ function ItensPage() {
           <ItemCard
             key={item.id}
             item={item}
+            usuario={usuario}
             categorias={categorias}
             aoEditar={editar}
             aoExcluir={excluir}
+            aoSolicitar={solicitar}
           />
         ))}
       </div>

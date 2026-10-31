@@ -47,3 +47,39 @@
   color: var(--cor-primaria);
   font-weight: 600;
 }
+
+.menu-usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-saudacao {
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
+}
+
+.menu-sair {
+  padding: 6px 14px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: transparent;
+}
+
+.menu-sair:hover {
+  border-color: var(--cor-erro);
+  color: var(--cor-erro);
+}
+
+.menu-entrar {
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: var(--cor-primaria);
+  color: #06110b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.menu-entrar:hover {
+  background: var(--cor-primaria-escura);
+}

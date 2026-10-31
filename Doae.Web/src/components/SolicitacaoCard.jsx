@@ -2,6 +2,7 @@ import './SolicitacaoCard.css';
 
 function SolicitacaoCard({ solicitacao, aoAceitar, aoRecusar, aoCancelar }) {
   const pendente = solicitacao.status === 'Pendente';
+  const temAcoes = aoAceitar || aoRecusar || aoCancelar;
 
   return (
     <article className="solicitacao-card">
@@ -16,13 +17,19 @@ function SolicitacaoCard({ solicitacao, aoAceitar, aoRecusar, aoCancelar }) {
       </p>
       {solicitacao.mensagem && <p>"{solicitacao.mensagem}"</p>}
 
-      {pendente && (
+      {pendente && temAcoes && (
         <div className="solicitacao-acoes">
-          <button className="btn-aceitar" onClick={() => aoAceitar(solicitacao.id)}>
-            Aceitar
-          </button>
-          <button onClick={() => aoRecusar(solicitacao.id)}>Recusar</button>
-          <button onClick={() => aoCancelar(solicitacao.id)}>Cancelar</button>
+          {aoAceitar && (
+            <button className="btn-aceitar" onClick={() => aoAceitar(solicitacao.id)}>
+              Aceitar
+            </button>
+          )}
+          {aoRecusar && (
+            <button onClick={() => aoRecusar(solicitacao.id)}>Recusar</button>
+          )}
+          {aoCancelar && (
+            <button onClick={() => aoCancelar(solicitacao.id)}>Cancelar pedido</button>
+          )}
         </div>
       )}
     </article>
