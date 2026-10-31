@@ -155,6 +155,9 @@ namespace Doae.Api.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SenhaHash")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Telefone")
                         .HasColumnType("TEXT");
 
